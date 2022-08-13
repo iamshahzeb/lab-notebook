@@ -30,7 +30,6 @@ dist-ssr
 
 
 .DS_Store
-*.js
 !jest.config.js
 *.d.ts
 !vite-app-env.d.ts
