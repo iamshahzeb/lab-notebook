@@ -1,3 +1,5 @@
+// Types
+
 // Components
 import { Login } from '../../pages/authentication';
 import { GettingStarted } from '../../pages/onboarding';
@@ -6,9 +8,8 @@ import { ScientistsDashboard, ScientistsNotebook } from '../../pages/scientists'
 
 // Services
 import { routeConstantsService } from './constants';
-
-// Types
 import { AppRouterProps } from './types';
+
 
 export const routeUtilService = (() => {
   /**

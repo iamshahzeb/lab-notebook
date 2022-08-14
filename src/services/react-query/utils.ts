@@ -1,6 +1,7 @@
 // Packages
 import { MutationCache, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { ApiStatusEnums } from '.';
 
 export const reactQueryUtilService = (function () {
   const useInvalidateQuery = () => {
@@ -36,7 +37,17 @@ export const reactQueryUtilService = (function () {
     }),
   };
 
+
+  const isResponseOk = (status: number) =>
+    status === ApiStatusEnums.SUCCESS;
+
+  const isErrorResponse = (status: number) =>
+    status !== ApiStatusEnums.INTERNAL_SERVER_ERROR;
+
+
   return {
+    isResponseOk,
+    isErrorResponse,
     useInvalidateQuery,
     queryDefaultConfig,
   };

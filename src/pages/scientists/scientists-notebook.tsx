@@ -1,18 +1,36 @@
 // Packages
-import { useTranslation } from 'react-i18next';
-// import { translationsUtilService } from '../../services/translations';
+import { useQuery } from '@tanstack/react-query';
+
+// Components
+import { EmptyNote, NotesList } from '../../components/scientists-notes';
+
+// Services
+import { ReactQueryEnums } from '../../services/react-query';
+import { scientistsApiService } from '../../services/scientists';
 
 export const ScientistsNotebook = () => {
-  const { t } = useTranslation();
+  /**
+  * @Hooks
+  */
+  const { isLoading, data: notes } = useQuery(
+    [ReactQueryEnums.GET_NOTES],
+    () => scientistsApiService.getNotes(),
+    {
+      keepPreviousData: false,
+      staleTime: Infinity,
+    },
+  );
 
   return (
-    <div>
-      <h1>{t('Scientists Notebook')}</h1>;
-      {/* <select defaultValue={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
-        {translationsUtilService.availableLanguages.map((language) => (
-          <option key={language}>{language}</option>
-        ))}
-      </select> */}
+    <div className="flex flex-col h-screen">
+      <div className="border border-bullet mt-6 rounded-xl">
+        {/* Loading State */}
+        {isLoading && <h1>...loading</h1>}
+        {/* Empty Notes State */}
+        {!!(!isLoading && !notes?.data?.length) && <EmptyNote />}
+        {/* Notes Data State */}
+        {!!(!isLoading && notes?.data?.length) && <NotesList notes={notes?.data} />}
+      </div>
     </div>
   );
 };
