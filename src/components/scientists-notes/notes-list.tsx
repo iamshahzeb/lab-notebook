@@ -1,7 +1,10 @@
 // Types
+import { useCallback, useState } from 'react';
+import { NotesDialogEnums } from '../../services/scientists';
 import { INote } from '../../services/scientists/types';
 
 // Components
+import { NoteStatsDialog, ViewNoteDialog } from '../dialogs';
 import { NoteItem } from './note-item';
 import { NotesHeader } from './notes-header';
 
@@ -12,8 +15,30 @@ interface INotesListProps {
 
 export const NotesList = ({ notes }: INotesListProps) => {
   /**
-   * @Render
-   */
+  * @Hooks
+  */
+  const [statsDialogVisiblity, setStatsDialogVisiblity] = useState<boolean>(false);
+  const [viewDialogVisiblity, setViewDialogVisiblity] = useState<boolean>(false);
+  const [selectedNoteValue, setSelectedNoteValue] = useState<INote | null>(null);
+
+  const setActiveDialog = useCallback((key: string, value: INote) => {
+    switch (key) {
+      case NotesDialogEnums.VIEW: {
+        setSelectedNoteValue(value);
+        setViewDialogVisiblity(true);
+        break;
+      }
+      case NotesDialogEnums.STATS: {
+        setSelectedNoteValue(value);
+        setStatsDialogVisiblity(true);
+        break;
+      }
+    }
+  }, []);
+
+  /**
+  * @Render
+  */
   return (
     <>
       <NotesHeader />
@@ -22,10 +47,20 @@ export const NotesList = ({ notes }: INotesListProps) => {
           role="list"
           className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {notes?.map((note: INote) => (
-            <NoteItem key={note.id} note={note} />
+            <NoteItem key={note.id} note={note} setActiveDialog={setActiveDialog} />
           ))}
         </ul>
       </div>
+      <NoteStatsDialog
+        note={selectedNoteValue}
+        isVisible={statsDialogVisiblity}
+        toggleVisiblity={setStatsDialogVisiblity}
+      />
+      <ViewNoteDialog
+        note={selectedNoteValue}
+        isVisible={viewDialogVisiblity}
+        toggleVisiblity={setViewDialogVisiblity}
+      />
     </>
   );
 };

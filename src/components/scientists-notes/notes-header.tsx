@@ -20,8 +20,11 @@ export const NotesHeader = () => {
           <h3 className="text-primary font-medium text-lg">Scientist Notes</h3>
         </div>
         <div>
-          <button onClick={()=>setAddNoteDialogVisible(true)} type="button" className="h-12 px-5 text-white bg-primary text-sm  py-1 rounded-md">
-          Add Notes
+          <button
+            onClick={() => setAddNoteDialogVisible(true)}
+            type="button"
+            className="h-12 px-5 text-white bg-primary text-sm  py-1 rounded-md">
+      Add Notes
           </button>
         </div>
       </div>

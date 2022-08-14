@@ -5,11 +5,11 @@ export interface IAddNote {
 
 export interface INote extends IAddNote {
   id: string
-  failedAction: string
+  failedAction?: string
 }
 
 export interface INotesActionItem {
   key: string
   title: string
-  handler: () => void
+  handler: (key: string) => void
 }

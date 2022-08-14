@@ -1,5 +1,6 @@
 // Types
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { NotesDialogEnums } from '../../services/scientists';
 import { INote, INotesActionItem } from '../../services/scientists/types';
 
 // Components
@@ -8,53 +9,52 @@ import { ActionItems } from '../ui';
 // Interfaces
 interface INoteItemProps {
   note: INote;
+  setActiveDialog: (key: string, value: INote) => void;
 }
 
-export const NoteItem = ({ note }: INoteItemProps) => {
+export const NoteItem = ({ note, setActiveDialog }: INoteItemProps) => {
   /**
-   * @Methods
-   */
+  * @Methods
+  */
 
-  const viewHandler = () => {
-    console.log('on view handler called');
-  };
-
-  const frequencyHandler = () => {
-    console.log('frequencyHandler handler called');
-  };
-
-  const onSimilarWordsHandler = () => {
-    console.log('onSimilarWordsHandler handler called');
-  };
+  const ActionItemHandler = useCallback(
+    (key: string) => {
+      setActiveDialog(key, note);
+    },
+    [note],
+  );
 
   /**
-   * @Variables
-   */
+  * @Variables
+  */
 
   const actionsList: INotesActionItem[] = useMemo(() => {
     return [
-      { key: 'view', title: 'View', handler: viewHandler },
-      { key: 'frequency', title: 'Check Frequency', handler: frequencyHandler },
-      { key: 'similarWords', title: 'Check Similar Words', handler: onSimilarWordsHandler },
+      { key: NotesDialogEnums.VIEW, title: 'View', handler: ActionItemHandler },
+      { key: NotesDialogEnums.STATS, title: 'Check Stats', handler: ActionItemHandler },
     ];
-  }, []);
+  }, [note]);
 
   /**
-   * @Render
-   */
+  * @Render
+  */
   return (
-    <li className="col-span-1 bg-lightGrey rounded-lg shadow-md divide-y divide-gray-200 h-52 w-80 border rounded-r-lg">
-      <div className="w-full flex items-center justify-between p-6 space-x-6">
+    <li
+      onClick={() => {
+        ActionItemHandler(NotesDialogEnums.VIEW);
+      }}
+      className="col-span-1 bg-lightGrey rounded-lg shadow-md divide-y divide-gray-200 h-52 w-80 border rounded-r-lg">
+      <div className="w-full flex items-center justify-between p-3 space-x-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
             <h2 className="text-primary text-sm font-medium truncate">{note.name ?? 'Untitled Note'}</h2>
           </div>
         </div>
-        <ActionItems actions={actionsList}/>
+        <ActionItems actions={actionsList} />
       </div>
       <div className="-mt-px flex divide-x divide-gray-200">
         <div className="-ml-px w-0 flex-1 flex p-3">
-          <p className="mt-1 text-primary text-sm font-medium max-w-prose">{note.description ?? ''}</p>
+          <p className="mt-1 text-secondary text-sm font-light max-w-prose">{note.description ?? ''}</p>
         </div>
       </div>
     </li>
