@@ -7,6 +7,9 @@ import { ToastContainer } from 'react-toastify';
 // Components
 import { AppRoutes } from './components/routes';
 
+// Styles
+import 'react-toastify/dist/ReactToastify.css';
+
 // Services
 import { reactQueryUtilService } from './services/react-query';
 import './services/translations';

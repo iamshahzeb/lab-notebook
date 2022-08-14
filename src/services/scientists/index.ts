@@ -1,0 +1,1 @@
+export { scientistsApiService } from './api';
