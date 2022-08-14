@@ -1,5 +1,5 @@
 // Types
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { NotesDialogEnums } from '../../services/scientists';
 import { INote, INotesActionItem } from '../../services/scientists/types';
 
