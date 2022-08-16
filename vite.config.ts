@@ -1,6 +1,7 @@
 // Packages
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 import svgr from 'vite-plugin-svgr';
 
 
@@ -14,5 +15,10 @@ export default defineConfig({
   }), react({
     // Use React plugin in all *.tsx files
     include: '**/*.{tsx}',
+  }), VitePWA({
+    registerType: 'autoUpdate',
+    devOptions: {
+      enabled: true,
+    },
   })],
 });
