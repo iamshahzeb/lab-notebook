@@ -19,7 +19,7 @@ export const NotesHeader = () => {
     <>
       <div className="flex items-center justify-between w-full h-20 px-8 py-4 bg-lightGrey rounded-tl-xl rounded-tr-xl">
         <div>
-          <h3 className="text-primary font-medium text-lg">{t('Scientist Notes')}</h3>
+          <h3 className="text-primary font-medium text-lg">{t('Lab Notes')}</h3>
         </div>
         <div>
           <button
