@@ -1,9 +1,11 @@
 // Packages
+import localforage from 'localforage';
 import { v4 as uuidv4 } from 'uuid';
 
 // Services
 import { scientistsConstantsService } from '.';
 import { reactQueryUtilService } from '../react-query';
+import { NoteStatusEnums } from './constants';
 
 // Types
 import { IAddNote } from './types';
@@ -23,7 +25,7 @@ export const scientistsApiService = (() => {
     return new Promise((resolve) => setTimeout(() => resolve(scientistsConstantsService.notesMockData), 500))
       .then(function (response: any) {
         if (reactQueryUtilService.isResponseOk(response.status)) {
-          return response;
+          return response.data;
         } else {
           return Promise.reject('Something went wrong');
         }
@@ -39,11 +41,32 @@ export const scientistsApiService = (() => {
     /**
      * use payload as body in POST API call
      */
-    const mockResponse = {
+    let mockResponse = {
       status: 200,
-      data: { ...payload, id: uuidv4() },
+      data: {
+        ...payload,
+        id: payload?.id || uuidv4(),
+        status: NoteStatusEnums.SUCCESS,
+        isUpdating: payload?.id ? true : false,
+      },
+      message: 'Note added successfully ',
     };
-    return new Promise((resolve) => setTimeout(() => resolve(mockResponse), 500));
+    /**
+     * NOTE: since this is not a real API call we will just check if network is available,
+     * and if network isn't available we will throw error.
+     */
+    if (navigator.onLine) {
+      if (payload.id) void localforage.removeItem(payload.id!);
+      return new Promise((resolve) => setTimeout(() => resolve(mockResponse), 500));
+    } else {
+      mockResponse = {
+        ...mockResponse,
+        status: 400,
+        message: 'Error! Note cannot be uploaded due to bad internet connection, Please retry!',
+        data: { ...mockResponse.data, status: NoteStatusEnums.FAILED },
+      };
+      return new Promise((_, reject) => setTimeout(() => reject(mockResponse), 500));
+    }
   };
 
   /**

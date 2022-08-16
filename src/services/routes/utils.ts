@@ -2,7 +2,6 @@
 
 // Components
 import { Login } from '../../pages/authentication';
-import { GettingStarted } from '../../pages/onboarding';
 import { NotFound } from '../../pages/redirect';
 import { ScientistsDashboard, ScientistsNotebook } from '../../pages/scientists';
 
@@ -16,10 +15,6 @@ export const routeUtilService = (() => {
    * NOTE: All un-authenticated routes will be listed down here.
    */
   const unAuthenticatedRoutes: AppRouterProps[] = [
-    {
-      ...routeConstantsService.unAuthenticatedRoutes.gettingStarted,
-      component: GettingStarted,
-    },
     {
       ...routeConstantsService.unAuthenticatedRoutes.scientistsDashboard,
       component: ScientistsDashboard,

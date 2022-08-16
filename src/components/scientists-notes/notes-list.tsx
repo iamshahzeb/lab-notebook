@@ -40,12 +40,12 @@ export const NotesList = ({ notes }: INotesListProps) => {
   * @Render
   */
   return (
-    <>
+    <div className="border border-bullet mt-6 rounded-xl h-full flex space-between flex-col">
       <NotesHeader />
       <div className="py-8 px-8 bg-white flex justify-between rounded-bl-xl rounded-br-xl">
         <ul
           role="list"
-          className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
           {notes?.map((note: INote) => (
             <NoteItem key={note.id} note={note} setActiveDialog={setActiveDialog} />
           ))}
@@ -61,6 +61,6 @@ export const NotesList = ({ notes }: INotesListProps) => {
         isVisible={viewDialogVisiblity}
         toggleVisiblity={setViewDialogVisiblity}
       />
-    </>
+    </div>
   );
 };

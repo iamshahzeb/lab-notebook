@@ -66,7 +66,7 @@ export const ViewNoteDialog = ({ isVisible, toggleVisiblity, note }: IViewNoteDi
                   <div>
                     <div className="text-left">
                       <div className="flex items-start justify-end">
-                        <div className="ml-3 flex h-7 items-center">
+                        <div className="ml-3 flex h-7 items-center absolute top-3 right-3">
                           <button
                             type="button"
                             className="rounded-md bg-white text-secondary hover:text-primary"
@@ -78,7 +78,12 @@ export const ViewNoteDialog = ({ isVisible, toggleVisiblity, note }: IViewNoteDi
                       </div>
                       <div className="bg-white overflow-hidden">
                         <div className="px-2 py-3 sm:px-4">
-                          <h3 className="text-md leading-6 font-medium text-primary">{note?.name}</h3>
+                          <div className="sm:col-span-2">
+                            <dt className="text-sm font-medium text-primary">Title</dt>
+                            <dd className="mt-1 text-sm text-secondary">
+                              {note?.name}
+                            </dd>
+                          </div>
                         </div>
                         <div className="px-2 py-3 sm:px-4">
                           <div className="sm:col-span-2">

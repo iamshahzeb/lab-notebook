@@ -1,11 +1,16 @@
+import { NoteStatusEnums } from './constants';
+
+export type NoteStatus = NoteStatusEnums.FAILED | NoteStatusEnums.SUCCESS
 export interface IAddNote {
+  id?: string
   name: string
   description: string
+  isUpdating?: boolean
 }
 
 export interface INote extends IAddNote {
-  id: string
   failedAction?: string
+  status?: NoteStatus
 }
 
 export interface INotesActionItem {

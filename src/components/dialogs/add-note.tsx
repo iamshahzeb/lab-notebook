@@ -2,20 +2,17 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/solid';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import * as yup from 'yup';
+import { useSaveNote } from '../../hooks';
 
 // Services
 import { generalUtilService } from '../../services/general';
 import { IDialogBaseProps } from '../../services/general/types';
-import { ReactQueryEnums } from '../../services/react-query';
-import { scientistsApiService } from '../../services/scientists';
 
 // Types
-import { IAddNote, INote } from '../../services/scientists/types';
+import { IAddNote } from '../../services/scientists/types';
 
 // Interfaces
 interface IAddNoteDialogProps extends IDialogBaseProps {}
@@ -36,7 +33,6 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
   /**
   * @Hooks
   */
-  const queryClient = useQueryClient();
 
   const {
     register,
@@ -52,34 +48,15 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
     },
   });
 
-  const { mutate: addNote, isLoading } = useMutation(scientistsApiService.addNote, {
-    onSuccess: async ({ data: newData }: { status: string; data: INote }) => {
-      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries([ReactQueryEnums.GET_NOTES]);
-
-      // Optimistically update to the new value
-      await queryClient.setQueryData([ReactQueryEnums.GET_NOTES], (old: any) => {
-        return { ...old, data: [...old?.data, newData] };
-      });
-      onClose();
-      toast.success('Note added successfully');
-    },
-    onSettled: () => {
-      reset();
-    },
-    networkMode: 'always',
-  });
-
-  /**
-  *
-  * @Methods
-  */
-  const submitFormDetails = (data: IAddNote) => {
-    addNote(data);
-  };
-
   const onClose = () => {
     toggleVisiblity(false);
+    reset();
+  };
+
+  const { saveNote, savingNote } = useSaveNote(onClose, onClose);
+
+  const submitFormDetails = (data: IAddNote) => {
+    saveNote(data);
   };
 
   /**
@@ -174,7 +151,7 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
                         <div className="mt-5 sm:mt-6">
                           <button
                             type="submit"
-                            disabled={!isFormValid || isLoading}
+                            disabled={!isFormValid || savingNote}
                             className={`w-full font-medium h-12 ${
                               !isFormValid ? 'bg-disabledBgColor' : 'bg-primary'
                             } ${!isFormValid ? 'text-disabledColor' : 'text-white'}   text-sm  py-2 rounded-xl `}>
