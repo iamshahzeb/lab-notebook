@@ -19,7 +19,7 @@ export const ActionItems = ({ actions }: IActionItemsProps) => {
   * @Render
   */
   return (
-    <Menu as="div" className="flex justify-end relative">
+    <Menu onClick={(e) => e.stopPropagation()} as="div" className="flex justify-end relative">
       <div onClick={(e) => e.stopPropagation()}>
         <Menu.Button className="rounded-full relative flex items-center text-primary hover:text-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary focus:ring-primary">
           <span className="sr-only">Open options</span>
