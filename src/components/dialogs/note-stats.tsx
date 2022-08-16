@@ -4,6 +4,7 @@ import { XIcon } from '@heroicons/react/solid';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 // Services
@@ -35,6 +36,7 @@ export const NoteStatsDialog = ({ isVisible, toggleVisiblity, note }: INoteStats
   /**
   * @Hooks
   */
+  const { t } = useTranslation();
   const [frequency, setFrequency] = useState<number>(0);
   const [similarWords, setSimilarWords] = useState<string>('');
 
@@ -146,7 +148,7 @@ export const NoteStatsDialog = ({ isVisible, toggleVisiblity, note }: INoteStats
                     <div className="text-left">
                       <div className="flex items-start justify-between">
                         <Dialog.Title as="h2" className="mt-0.5 text-md leading-6 font-medium text-primary">
-             Check Frequency & similar words in a notebook entry
+                          {t('Check Frequency & similar words in a notebook entry')}
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
@@ -165,41 +167,41 @@ export const NoteStatsDialog = ({ isVisible, toggleVisiblity, note }: INoteStats
                               {...register('word')}
                               onClick={() => reset()}
                               id="word"
-                              placeholder="Enter word"
+                              placeholder={`${t('Enter word')}`}
                               name="word"
                               type="text"
                               autoComplete="word"
                               className={`h-12 w-full px-3 py-2 border-2 rounded-l-xl placeholder-secondary font-light text-sm focus:shadow-none focus:border-bulletActive outline-none ${
-                                errors.word ? 'border-errorColor' : 'border-secondary'
+                                errors.word ? 'bordererror' : 'border-secondary'
                               }`}
                             />
                             {errors.word && (
-                              <p className="text-errorColor text-sm font-light">{errors.word?.message}</p>
+                              <p className="texterror text-sm font-light">{`t(${errors.word?.message})`}</p>
                             )}
                           </div>
                           <button
                             type="submit"
                             disabled={!isFormValid}
                             className={`w-1/3 font-medium h-12 ${
-                              !isFormValid ? 'bg-disabledBgColor' : 'bg-primary'
+                              !isFormValid ? 'bg-disabled' : 'bg-primary'
                             } ${
                               !isFormValid ? 'text-disabledColor' : 'text-white'
                             }   text-sm  py-2 rounded-r-xl `}>
-              Check
+                            {t('Check')}
                           </button>
                         </div>
                         <div className="mt-5 border-t border-gray-200">
                           <dl className="sm:divide-y sm:divide-gray-200">
                             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-                              <dt className="text-sm font-medium text-primary">Frequency</dt>
+                              <dt className="text-sm font-medium text-primary">{t('Frequency')}</dt>
                               <dd className="mt-1 text-sm text-secondary sm:mt-0 sm:col-span-2">
-                                {frequency || 'N/A'}
+                                {frequency || t('N/A')}
                               </dd>
                             </div>
                             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-                              <dt className="text-sm font-medium text-primary">Similar Words</dt>
+                              <dt className="text-sm font-medium text-primary">{t('Similar Words')}</dt>
                               <dd className="mt-1 text-sm text-secondary sm:mt-0 sm:col-span-2">
-                                {similarWords || 'None'}
+                                {similarWords || t('None')}
                               </dd>
                             </div>
                           </dl>

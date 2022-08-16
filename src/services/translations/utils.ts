@@ -2,16 +2,16 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
-import { AvailableLanguagesEnums } from './constants';
+import { AvailableLanguagesEnums, LanguageDropDownValues } from './constants';
 
 export const translationsUtilService = (() => {
   /**
-       * @Private_Methods
-       */
+   * @Private_Methods
+   */
 
   const resources = AvailableLanguagesEnums;
 
-  const availableLanguages = Object.keys(resources);
+  const availableLanguages = LanguageDropDownValues;
 
   void i18n.use(initReactI18next)
     .use(LanguageDetector)
@@ -22,8 +22,8 @@ export const translationsUtilService = (() => {
     });
 
   /**
-     * @Public_Methods
-     */
+   * @Public_Methods
+   */
   return {
     availableLanguages,
   };

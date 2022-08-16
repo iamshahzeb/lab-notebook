@@ -2,6 +2,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/solid';
 import { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Services
 import { generalUtilService } from '../../services/general';
@@ -16,6 +17,11 @@ interface IViewNoteDialogProps extends IDialogBaseProps {
 }
 
 export const ViewNoteDialog = ({ isVisible, toggleVisiblity, note }: IViewNoteDialogProps) => {
+  /**
+  * @Hooks
+  */
+  const { t } = useTranslation();
+
   /**
   *
   * @Methods
@@ -79,7 +85,7 @@ export const ViewNoteDialog = ({ isVisible, toggleVisiblity, note }: IViewNoteDi
                       <div className="bg-white overflow-hidden">
                         <div className="px-2 py-3 sm:px-4">
                           <div className="sm:col-span-2">
-                            <dt className="text-sm font-medium text-primary">Title</dt>
+                            <dt className="text-sm font-medium text-primary">{t('Title')}</dt>
                             <dd className="mt-1 text-sm text-secondary">
                               {note?.name}
                             </dd>
@@ -87,7 +93,7 @@ export const ViewNoteDialog = ({ isVisible, toggleVisiblity, note }: IViewNoteDi
                         </div>
                         <div className="px-2 py-3 sm:px-4">
                           <div className="sm:col-span-2">
-                            <dt className="text-sm font-medium text-primary">Description</dt>
+                            <dt className="text-sm font-medium text-primary">{t('Description')}</dt>
                             <dd className="mt-1 text-sm text-secondary">
                               {note?.description}
                             </dd>
