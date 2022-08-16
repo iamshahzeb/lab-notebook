@@ -67,6 +67,7 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
     onSettled: () => {
       reset();
     },
+    networkMode: 'always',
   });
 
   /**
