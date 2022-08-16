@@ -4,6 +4,7 @@ import { XIcon } from '@heroicons/react/solid';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { useSaveNote } from '../../hooks';
 
@@ -34,6 +35,8 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
   * @Hooks
   */
 
+  const { t } = useTranslation();
+
   const {
     register,
     handleSubmit,
@@ -48,6 +51,9 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
     },
   });
 
+  /**
+  * @Methods
+  */
   const onClose = () => {
     toggleVisiblity(false);
     reset();
@@ -101,7 +107,7 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
                     <div className="text-left">
                       <div className="flex items-start justify-between">
                         <Dialog.Title as="h2" className="mt-0.5 text-md leading-6 font-medium text-primary">
-             Add Note
+                          {t('Add Note')}
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
@@ -115,37 +121,39 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
                       </div>
                       <div>
                         <div className="mt-4">
-                          <span className="textarea_label">Name</span>
+                          <span className="textarea_label">{t('Name')}</span>
                           <input
                             {...register('name')}
                             id="name"
-                            placeholder="Enter Name"
+                            placeholder={`${t('Enter Name')}`}
                             name="name"
                             type="name"
                             autoComplete="name"
                             className={`h-12 w-full px-3 py-2 border-2 rounded-xl placeholder-secondary font-light text-sm focus:shadow-none focus:border-bulletActive outline-none ${
-                              errors.name ? 'border-errorColor' : 'border-secondary'
+                              errors.name ? 'bordererror' : 'border-secondary'
                             }`}
                           />
                           {errors.name && (
-                            <p className="text-errorColor text-sm font-light">{errors.name?.message}</p>
+                            <p className="texterror text-sm font-light">{t(`${errors.name?.message}`)}</p>
                           )}
                         </div>
                         <div className="mt-4">
-                          <span className="textarea_label">Description</span>
+                          <span className="textarea_label"> {t('Description')}</span>
                           <input
                             {...register('description')}
                             id="description"
-                            placeholder="Enter some description"
+                            placeholder={`${t('Enter some description')}`}
                             name="description"
                             type="description"
                             autoComplete="description"
                             className={`h-12 w-full px-3 py-2 border-2 rounded-xl placeholder-secondary font-light text-sm focus:shadow-none focus:border-bulletActive outline-none ${
-                              errors.name ? 'border-errorColor' : 'border-secondary'
+                              errors.name ? 'bordererror' : 'border-secondary'
                             }`}
                           />
                           {errors.description && (
-                            <p className="text-errorColor text-sm font-light">{errors.description?.message}</p>
+                            <p className="texterror text-sm font-light">
+                              {t(`${errors.description?.message}`)}
+                            </p>
                           )}
                         </div>
                         <div className="mt-5 sm:mt-6">
@@ -153,9 +161,9 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
                             type="submit"
                             disabled={!isFormValid || savingNote}
                             className={`w-full font-medium h-12 ${
-                              !isFormValid ? 'bg-disabledBgColor' : 'bg-primary'
+                              !isFormValid ? 'bg-disabled' : 'bg-primary'
                             } ${!isFormValid ? 'text-disabledColor' : 'text-white'}   text-sm  py-2 rounded-xl `}>
-              Add
+                            {t('Add')}
                           </button>
                         </div>
                       </div>

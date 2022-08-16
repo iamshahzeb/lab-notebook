@@ -3,6 +3,7 @@ import { XCircleIcon } from '@heroicons/react/solid';
 
 // Types
 import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSaveNote } from '../../hooks';
 import { NotesDialogEnums } from '../../services/scientists';
 import { NoteStatusEnums } from '../../services/scientists/constants';
@@ -19,6 +20,12 @@ interface INoteItemProps {
 
 export const NoteItem = ({ note, setActiveDialog }: INoteItemProps) => {
   /**
+  * @Hooks
+  */
+  const { t } = useTranslation();
+  const { saveNote, savingNote } = useSaveNote();
+
+  /**
   * @Methods
   */
 
@@ -29,7 +36,6 @@ export const NoteItem = ({ note, setActiveDialog }: INoteItemProps) => {
     [note],
   );
 
-  const { saveNote, savingNote } = useSaveNote();
 
   const onRetry = () => {
     saveNote({ name: note?.name, description: note?.description, id: note?.id });
@@ -54,14 +60,14 @@ export const NoteItem = ({ note, setActiveDialog }: INoteItemProps) => {
       onClick={() => {
         ActionItemHandler(NotesDialogEnums.VIEW);
       }}
-      className="col-span-1 bg-lightGrey rounded-lg shadow-md divide-y divide-gray-200 h-52 sm:w-full md:w-72 xl:w-64 2xl:w-80 border rounded-r-lg">
-      <div className="w-full flex items-center justify-between p-2 space-x-6">
+      className="col-span-1 rounded-lg shadow-md divide-y divide-gray-200 h-52 sm:w-full md:w-72 xl:w-64 2xl:w-80 border rounded-r-lg">
+      <div className="w-full bg-lightGrey flex items-center justify-between p-2 space-x-6">
         <div className="flex-1 truncate">
           <div onClick={(e) => e.stopPropagation()} className="flex items-center space-x-3">
             {note?.status === NoteStatusEnums.FAILED && (
               <button
                 type="button"
-                title="Retry Save"
+                title={`${t('Retry Save')}`}
                 disabled={savingNote}
                 className="rounded-md bg-white text-secondary hover:text-primary"
                 onClick={onRetry}>
@@ -76,7 +82,7 @@ export const NoteItem = ({ note, setActiveDialog }: INoteItemProps) => {
       </div>
       <div className="-mt-px flex divide-x divide-gray-200">
         <div className="-ml-px w-0 flex-1 flex p-3">
-          <p className="mt-1 text-secondary text-sm font-light max-w-prose">{note.description ?? ''}</p>
+          <p className="mt-1 text-primary text-sm font-light max-w-prose">{note.description ?? ''}</p>
         </div>
       </div>
     </li>

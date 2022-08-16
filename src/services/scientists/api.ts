@@ -1,4 +1,5 @@
 // Packages
+import i18next from 'i18next';
 import localforage from 'localforage';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -27,7 +28,7 @@ export const scientistsApiService = (() => {
         if (reactQueryUtilService.isResponseOk(response.status)) {
           return response.data;
         } else {
-          return Promise.reject('Something went wrong');
+          return Promise.reject(i18next.t('Something went wrong'));
         }
       });
   };
@@ -49,7 +50,7 @@ export const scientistsApiService = (() => {
         status: NoteStatusEnums.SUCCESS,
         isUpdating: payload?.id ? true : false,
       },
-      message: 'Note added successfully ',
+      message: i18next.t('Note added successfully!'),
     };
     /**
      * NOTE: since this is not a real API call we will just check if network is available,
@@ -62,7 +63,7 @@ export const scientistsApiService = (() => {
       mockResponse = {
         ...mockResponse,
         status: 400,
-        message: 'Error! Note cannot be uploaded due to bad internet connection, Please retry!',
+        message: i18next.t('Error! Note cannot be uploaded due to bad internet connection, Please retry!'),
         data: { ...mockResponse.data, status: NoteStatusEnums.FAILED },
       };
       return new Promise((_, reject) => setTimeout(() => reject(mockResponse), 500));
