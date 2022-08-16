@@ -13,3 +13,8 @@ export interface INotesActionItem {
   title: string
   handler: (key: string) => void
 }
+
+export interface INotesMockData {
+  data: INote[]
+  status: number
+}
