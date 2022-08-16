@@ -1,5 +1,6 @@
 // Packages
 import { Dialog, Transition } from '@headlessui/react';
+import { XIcon } from '@heroicons/react/solid';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Fragment } from 'react';
@@ -9,6 +10,7 @@ import * as yup from 'yup';
 
 // Services
 import { generalUtilService } from '../../services/general';
+import { IDialogBaseProps } from '../../services/general/types';
 import { ReactQueryEnums } from '../../services/react-query';
 import { scientistsApiService } from '../../services/scientists';
 
@@ -16,10 +18,7 @@ import { scientistsApiService } from '../../services/scientists';
 import { IAddNote, INote } from '../../services/scientists/types';
 
 // Interfaces
-interface IAddNoteDialogProps {
-  isVisible: boolean;
-  toggleVisiblity: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface IAddNoteDialogProps extends IDialogBaseProps {}
 
 /**
  * @Variables
@@ -54,7 +53,7 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
   });
 
   const { mutate: addNote, isLoading } = useMutation(scientistsApiService.addNote, {
-    onSuccess: async ({ data: newData }: {status: string, data: INote}) => {
+    onSuccess: async ({ data: newData }: { status: string; data: INote }) => {
       // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
       await queryClient.cancelQueries([ReactQueryEnums.GET_NOTES]);
 
@@ -91,9 +90,12 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
         open={isVisible}
         onClose={onClose}
         as="div"
-        className={generalUtilService.mergedClasses('fixed inset-0 z-10 flex items-center justify-center overflow-y-auto', {
-          'bg-gray-900': isVisible,
-        })}>
+        className={generalUtilService.mergedClasses(
+          'fixed inset-0 z-10 flex items-center justify-center overflow-y-auto',
+          {
+            'bg-gray-900': isVisible,
+          },
+        )}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -115,14 +117,25 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
               leave="ease-in duration-200"
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-              <Dialog.Panel className="relative bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full edit_dailogue p-8">
+              <Dialog.Panel className="relative bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full p-8">
                 <form className="space-y-6" onSubmit={handleSubmit(submitFormDetails)}>
                   <div>
                     <div className="text-left">
-                      <Dialog.Title as="h2" className="text-lg leading-6 font-medium text-primary">
-                      Add Note
-                      </Dialog.Title>
-                      <div className="edit_dailogue_content">
+                      <div className="flex items-start justify-between">
+                        <Dialog.Title as="h2" className="mt-0.5 text-md leading-6 font-medium text-primary">
+             Add Note
+                        </Dialog.Title>
+                        <div className="ml-3 flex h-7 items-center">
+                          <button
+                            type="button"
+                            className="rounded-md bg-white text-secondary hover:text-primary"
+                            onClick={onClose}>
+                            <span className="sr-only">Close panel</span>
+                            <XIcon className="h-6 w-6" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                      <div>
                         <div className="mt-4">
                           <span className="textarea_label">Name</span>
                           <input
@@ -164,7 +177,7 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
                             className={`w-full font-medium h-12 ${
                               !isFormValid ? 'bg-disabledBgColor' : 'bg-primary'
                             } ${!isFormValid ? 'text-disabledColor' : 'text-white'}   text-sm  py-2 rounded-xl `}>
-                            Add
+              Add
                           </button>
                         </div>
                       </div>
