@@ -1,8 +1,11 @@
 // Packages
 import { v4 as uuidv4 } from 'uuid';
 
-// Types
+// Services
+import { scientistsConstantsService } from '.';
 import { reactQueryUtilService } from '../react-query';
+
+// Types
 import { IAddNote } from './types';
 
 export const scientistsApiService = (() => {
@@ -16,21 +19,16 @@ export const scientistsApiService = (() => {
      *
      * @returns Promise
      */
-  const getNotes = (): Promise<any> => fetch('/src/services/scientists/mock-data.json'
-    , {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    },
-  )
-    .then(function (response) {
-      if (reactQueryUtilService.isResponseOk(response.status)) {
-        return response.json();
-      } else {
-        return Promise.reject('Something went wrong');
-      }
-    });
+  const getNotes = (): Promise<any> => {
+    return new Promise((resolve) => setTimeout(() => resolve(scientistsConstantsService.notesMockData), 500))
+      .then(function (response: any) {
+        if (reactQueryUtilService.isResponseOk(response.status)) {
+          return response;
+        } else {
+          return Promise.reject('Something went wrong');
+        }
+      });
+  };
 
   /**
      *
