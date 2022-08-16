@@ -1,11 +1,24 @@
 // Packages
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+// Services
+import { routeConstantsService } from '../../services/routes';
 
 export const NotFound = () => {
   /**
   * @Hooks
   */
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  /**
+   * @Methods
+   */
+
+  const goHome = () => {
+    navigate(routeConstantsService.unAuthenticatedRoutes.scientistsDashboard.path);
+  };
 
   /**
   * @Render
@@ -22,9 +35,9 @@ export const NotFound = () => {
             <p className="mb-8 text-center text-gray-500 md:text-lg">
               {t('The page you’re looking for doesn’t exist.')}
             </p>
-            <a href="#" className="px-6 py-2 text-sm font-semibold text-blue-800 bg-blue-100">
+            <button onClick={goHome} className="px-6 py-2 text-sm font-semibold text-blue-800 bg-blue-100">
               {t('Go home')}
-            </a>
+            </button>
           </div>
           <div className="mt-4">
             <img
