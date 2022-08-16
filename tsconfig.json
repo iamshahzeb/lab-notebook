@@ -24,6 +24,10 @@
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "types": [
+      "vite/client",
+      "vite-plugin-pwa/client"
+    ],
     "typeRoots": [
       "./node_modules/@types"
     ]
