@@ -34,6 +34,7 @@ dist-ssr
 *.d.ts
 !vite-app-env.d.ts
 node_modules
+dev-dist
 tsconfig.tsbuildinfo
 
 # Vite

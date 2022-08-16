@@ -1,5 +1,6 @@
 // Packages
 import { MutationCache, useQueryClient } from '@tanstack/react-query';
+import localforage from 'localforage';
 import { toast } from 'react-toastify';
 import { ApiStatusEnums } from '.';
 
@@ -32,6 +33,7 @@ export const reactQueryUtilService = (function () {
         toast.success(data.message);
       },
       onError: (error: any) => {
+        void localforage.setItem(error?.data?.id, error?.data);
         toast.error(error.message);
       },
     }),

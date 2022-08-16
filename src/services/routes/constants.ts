@@ -6,15 +6,10 @@ export const routeConstantsService = (() => {
    * NOTE: Declare all routes which doesn't require authentication over here.
    */
   const unAuthenticatedRoutes: Record<string, AppRouterProps> = {
-    gettingStarted: {
-      key: 'gettingStarted',
-      title: 'Getting Started',
-      path: '/',
-    },
     scientistsDashboard: {
       key: 'scientistsDashboard',
       title: 'Scientists Dashboard',
-      path: '/scientists-dashboard',
+      path: '/',
     },
     notebook: {
       key: 'notebook',

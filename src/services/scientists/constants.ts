@@ -5,6 +5,11 @@ export enum NotesDialogEnums {
   STATS = 'stats'
 };
 
+export enum NoteStatusEnums {
+  SUCCESS = 'success',
+  FAILED = 'failed'
+}
+
 export const scientistsConstantsService = (() => {
   /**
    * @Private

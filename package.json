@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "vite --https",
+    "start": "vite --https --host",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview",
+    "preview": "yarn build && vite preview --host",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix"
   },
@@ -20,6 +20,7 @@
     "@vitejs/plugin-react": "^1.3.0",
     "i18next": "^21.9.0",
     "i18next-browser-languagedetector": "^6.1.5",
+    "localforage": "^1.10.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.34.1",
