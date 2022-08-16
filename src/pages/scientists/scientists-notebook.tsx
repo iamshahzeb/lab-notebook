@@ -18,6 +18,7 @@ export const ScientistsNotebook = () => {
     {
       keepPreviousData: false,
       staleTime: Infinity,
+      networkMode: 'always',
     },
   );
 
