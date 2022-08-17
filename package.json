@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "vite --https --host",
+    "start": "vite --https",
     "build": "tsc --noEmit && vite build",
-    "preview": "yarn build && vite preview --host",
+    "preview": "yarn build && vite preview",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix"
   },

@@ -130,28 +130,27 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
                             type="name"
                             autoComplete="name"
                             className={`h-12 w-full px-3 py-2 border-2 rounded-xl placeholder-secondary font-light text-sm focus:shadow-none focus:border-bulletActive outline-none ${
-                              errors.name ? 'bordererror' : 'border-secondary'
+                              errors.name ? 'border-error' : 'border-secondary'
                             }`}
                           />
                           {errors.name && (
-                            <p className="texterror text-sm font-light">{t(`${errors.name?.message}`)}</p>
+                            <p className="text-error text-sm font-light">{t(`${errors.name?.message}`)}</p>
                           )}
                         </div>
                         <div className="mt-4">
                           <span className="textarea_label"> {t('Description')}</span>
-                          <input
+                          <textarea
                             {...register('description')}
                             id="description"
                             placeholder={`${t('Enter some description')}`}
                             name="description"
-                            type="description"
                             autoComplete="description"
-                            className={`h-12 w-full px-3 py-2 border-2 rounded-xl placeholder-secondary font-light text-sm focus:shadow-none focus:border-bulletActive outline-none ${
-                              errors.name ? 'bordererror' : 'border-secondary'
+                            className={`h-24 w-full px-3 py-2 border-2 rounded-xl placeholder-secondary font-light text-sm focus:shadow-none focus:border-bulletActive outline-none ${
+                              errors.name ? 'border-error' : 'border-secondary'
                             }`}
                           />
                           {errors.description && (
-                            <p className="texterror text-sm font-light">
+                            <p className="text-error text-sm font-light">
                               {t(`${errors.description?.message}`)}
                             </p>
                           )}
@@ -162,7 +161,7 @@ export const AddNoteDialog = ({ isVisible, toggleVisiblity }: IAddNoteDialogProp
                             disabled={!isFormValid || savingNote}
                             className={`w-full font-medium h-12 ${
                               !isFormValid ? 'bg-disabled' : 'bg-primary'
-                            } ${!isFormValid ? 'text-disabledColor' : 'text-white'}   text-sm  py-2 rounded-xl `}>
+                            } ${!isFormValid ? 'text-primary' : 'text-white'}   text-sm  py-2 rounded-xl `}>
                             {t('Add')}
                           </button>
                         </div>
