@@ -9,7 +9,6 @@ module.exports = {
     error: '#F57269',
     disabled: '#F0F0F0',
     bulletActive: '#514994',
-    bulletActiveBg: '#cac8df',
     bullet: '#E7E4ED',
    },
    spacing: {

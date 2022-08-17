@@ -1,7 +1,7 @@
 // Packages
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import localforage from 'localforage';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 // Components
 import { EmptyNote, NotesList } from '../../components/scientists-notes';
@@ -16,14 +16,16 @@ export const ScientistsNotebook = () => {
   /**
   * @Hooks
   */
-  const [storageLoading, setStorageLoading] = useState<boolean>(true);
-  const [notesInStorage, setNotesInStorage] = useState<INote[]>([]);
-  const [notes, setNotes] = useState<INote[]>([]);
+  const queryClient = useQueryClient();
+  const [componentLoading, setComponentLoading] = useState<boolean>(true);
 
-  const { isLoading, data: notesInServer } = useQuery(
+  const { data: notes } = useQuery(
     [ReactQueryEnums.GET_NOTES],
     () => scientistsApiService.getNotes(),
     {
+      onSettled: () => {
+        void getAndSetValuesFromStorage();
+      },
       keepPreviousData: false,
       staleTime: Infinity,
       networkMode: 'always',
@@ -45,46 +47,33 @@ export const ScientistsNotebook = () => {
           storageNotes.push(value);
         }
       });
-      setNotesInStorage(storageNotes);
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries([ReactQueryEnums.GET_NOTES]);
+
+      // Optimistically update to the new value
+      await queryClient.setQueryData([ReactQueryEnums.GET_NOTES], (oldNotes: INote[] | undefined) => {
+        return [...(oldNotes || []), ...storageNotes];
+      });
     } catch (err) {
       // This code runs if there were any errors
       console.log(err);
     } finally {
-      setStorageLoading(false);
+      setComponentLoading(false);
     }
   };
-
-  const init = () => getAndSetValuesFromStorage();
-
-  useEffect(() => {
-    void init();
-  }, []);
-
-  useEffect(() => {
-    if (!storageLoading && !isLoading) {
-      setNotes([...notesInServer, ...notesInStorage]);
-    }
-  }, [storageLoading, isLoading, notesInStorage, notesInServer]);
-
-  /**
-  * @Variables
-  */
-
-  const isComponentLoading = isLoading || storageLoading;
-  const areNotesEmpty = !!(!notesInServer?.length && !notesInStorage?.length);
 
   return (
     <div className="flex flex-col h-full">
       {/* Loading State */}
-      {isComponentLoading && (
+      {componentLoading && (
         <div className="border border-bullet mt-6 rounded-xl h-full flex justify-center items-center">
           <Loader />
         </div>
       )}
       {/* Empty Notes State */}
-      {!!(!isComponentLoading && areNotesEmpty) && <EmptyNote />}
+      {!!(!componentLoading && !notes?.length) && <EmptyNote />}
       {/* Notes Data State */}
-      {!!(!isComponentLoading && !areNotesEmpty) && <NotesList notes={notes} />}
+      {!!(!componentLoading && notes?.length) && <NotesList notes={notes} />}
     </div>
   );
 };

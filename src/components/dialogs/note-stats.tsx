@@ -102,6 +102,12 @@ export const NoteStatsDialog = ({ isVisible, toggleVisiblity, note }: INoteStats
     setSimilarWords(calculateSimilarWords(data?.word));
   };
 
+  const onClear = () => {
+    setFrequency(0);
+    setSimilarWords('');
+    reset();
+  };
+
   const onClose = () => {
     toggleVisiblity(false);
   };
@@ -165,18 +171,18 @@ export const NoteStatsDialog = ({ isVisible, toggleVisiblity, note }: INoteStats
                           <div className="w-full">
                             <input
                               {...register('word')}
-                              onClick={() => reset()}
+                              onClick={onClear}
                               id="word"
                               placeholder={`${t('Enter word')}`}
                               name="word"
                               type="text"
                               autoComplete="word"
                               className={`h-12 w-full px-3 py-2 border-2 rounded-l-xl placeholder-secondary font-light text-sm focus:shadow-none focus:border-bulletActive outline-none ${
-                                errors.word ? 'bordererror' : 'border-secondary'
+                                errors.word ? 'border-error' : 'border-secondary'
                               }`}
                             />
                             {errors.word && (
-                              <p className="texterror text-sm font-light">{`t(${errors.word?.message})`}</p>
+                              <p className="text-error text-sm font-light">{t(`${errors.word?.message}`)}</p>
                             )}
                           </div>
                           <button
@@ -185,7 +191,7 @@ export const NoteStatsDialog = ({ isVisible, toggleVisiblity, note }: INoteStats
                             className={`w-1/3 font-medium h-12 ${
                               !isFormValid ? 'bg-disabled' : 'bg-primary'
                             } ${
-                              !isFormValid ? 'text-disabledColor' : 'text-white'
+                              !isFormValid ? 'text-disabled' : 'text-white'
                             }   text-sm  py-2 rounded-r-xl `}>
                             {t('Check')}
                           </button>
